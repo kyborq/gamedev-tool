@@ -1,7 +1,6 @@
-function Engine(selector, width, height) {
+function Game(selector, width, height) {
   let canvas = document.querySelector(selector || "canvas");
   let ctx = canvas.getContext("2d");
-  ctx.imageSmoothingEnabled = false;
 
   this.width = width;
   this.height = height;
@@ -11,8 +10,8 @@ function Engine(selector, width, height) {
 
   this.objects = [];
 
-  this.add = function (object) {
-    this.objects.push(object);
+  this.scene = function (scene) {
+    this.objects = scene.objects;
   };
 
   this.render = function () {
@@ -34,23 +33,12 @@ function Engine(selector, width, height) {
   };
 }
 
-// TODO
-function Engine2(options) {
-  let context;
+function Scene() {
+  this.objects = [];
 
-  this.width = options.width || 640;
-  this.height = options.height || 640;
-  this.parent = options.parent || document.body
-
-  this.init = function () {
-    let canvas = document.createElement("canvas");
-    ctx = canvas.getContext("2d");
-
-    canvas.width = this.width;
-    canvas.height = this.height;
-  }
-
-  this.init();
+  this.add = function (object) {
+    this.objects.push(object);
+  };
 }
 
 function Sprite(asset, x, y) {
@@ -74,23 +62,6 @@ function Rectangle(x, y, w, h) {
     ctx.rect(this.x, this.y, this.width, this.height);
     ctx.fillStyle = "#000000";
     ctx.fill();
-    ctx.closePath();
-  };
-}
-
-function Line(x1, y1, x2, y2, width) {
-  this.x1 = x1 || 0;
-  this.y1 = y1 || 0;
-  this.x2 = x2 || 0;
-  this.y2 = y2 || 0;
-  this.width = width || 2
-
-  this.draw = function (ctx) {
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.lineWidth = this.width;
-    ctx.stroke();
     ctx.closePath();
   };
 }
