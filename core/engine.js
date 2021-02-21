@@ -73,7 +73,7 @@ function Debug(selector) {
     this.vars.push({ name: label, value: variable });
   };
 
-  this.set = function (label, value) {
+  this.update = function (label, value) {
     for (let variable of this.vars) {
       if (variable.name === label) {
         variable.value = value;
