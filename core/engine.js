@@ -51,21 +51,6 @@ function Sprite(asset, x, y) {
   this.image.src = asset;
 }
 
-function Rectangle(x, y, w, h) {
-  this.x = x || 0;
-  this.y = y || 0;
-  this.width = w || 0;
-  this.height = h || 0;
-
-  this.draw = function (ctx) {
-    ctx.beginPath();
-    ctx.rect(this.x, this.y, this.width, this.height);
-    ctx.fillStyle = "#000000";
-    ctx.fill();
-    ctx.closePath();
-  };
-}
-
 function Debug(selector) {
   this.vars = [];
 
