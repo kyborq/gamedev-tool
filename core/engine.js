@@ -10,7 +10,7 @@ function Game(selector, width, height) {
 
   this.objects = [];
 
-  this.scene = function (scene) {
+  this.setScene = function (scene) {
     this.objects = scene.objects;
   };
 
