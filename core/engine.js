@@ -1,69 +1,3 @@
-function Game(selector, width, height) {
-  let canvas = document.querySelector(selector || "canvas");
-  let ctx = canvas.getContext("2d");
-
-  this.width = width;
-  this.height = height;
-
-  canvas.width = this.width || 480;
-  canvas.height = this.height || 320;
-
-  this.objects = [];
-
-  this.setScene = function (scene) {
-    this.objects = scene.objects;
-  };
-
-  this.render = function () {
-    this.clear();
-    for (obj of this.objects) {
-      if (obj.image) {
-        obj.width = obj.image.naturalWidth;
-        obj.height = obj.image.naturalHeight;
-
-        ctx.drawImage(obj.image, obj.x, obj.y);
-      } else {
-        obj.draw(ctx);
-      }
-    }
-  };
-
-  this.clear = function () {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  };
-}
-
-function Scene() {
-  this.objects = [];
-
-  this.add = function (object) {
-    this.objects.push(object);
-    this.setIDS();
-  };
-
-  this.delete = function (id) {
-    this.objects = this.objects.filter((object) => id !== object.id && object);
-    this.setIDS();
-  };
-
-  this.setIDS = function () {
-    for (let i = 0; i < this.objects.length; i++) {
-      this.objects[i].id = i + 1;
-    }
-  };
-}
-
-function Sprite(asset, x, y) {
-  this.id = -1;
-  this.x = x || 0;
-  this.y = y || 0;
-  this.width;
-  this.height;
-
-  this.image = new Image();
-  this.image.src = asset;
-}
-
 function Debug(selector) {
   this.vars = [];
 
@@ -129,4 +63,94 @@ function Mouse(selector) {
       callback && callback(e.offsetX, e.offsetY);
     });
   };
+}
+
+function Game(width, height) {
+  this.width = width || 640;
+  this.height = height || 480;
+  this.canvas = document.createElement("canvas");
+  this.context = this.canvas.getContext("2d");
+  this.parent = document.querySelector("body");
+
+  this.scene = [];
+
+  this.init = function () {
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
+    this.canvas.id = "game";
+    this.parent.appendChild(this.canvas);
+  };
+
+  this.setScene = function (scene) {
+    this.scene = scene;
+  }
+  
+  this.start = function () {
+    if (this.scene) {
+      this.scene.render(this.canvas, this.context);
+    }
+  };
+
+  this.updateIds = function () {
+    for (let i = 0; i < this.scenes.length; i++) {
+      this.scenes[i].id = i + 1;
+    }
+  };
+  
+  this.init();
+}
+
+function Scene() {
+  this.id = 0;
+  this.name = "";
+
+  this.objects = [];
+
+  this.add = function (object) {
+    this.objects.push(object);
+    this.updateIds();
+  };
+
+  this.delete = function (object) {
+    this.updateIds();
+  };
+
+  this.render = function (canvas, ctx) {
+    this.clear(ctx, canvas.width, canvas.height);
+    for (let i = 0; i < this.objects.length; i++) {
+      this.objects[i].init();
+      this.objects[i].width = this.objects[i].image.naturalWidth;
+      this.objects[i].height = this.objects[i].image.naturalHeight;
+      ctx.drawImage(this.objects[i].image, this.objects[i].x, this.objects[i].y);
+    }
+  };
+
+  this.clear = function (ctx, width, height) {
+    ctx.clearRect(0, 0, width, height);
+  };
+
+  this.updateIds = function () {
+    for (let i = 0; i < this.objects.length; i++) {
+      this.objects[i].id = i + 1;
+    }
+  };
+}
+
+function Sprite(asset, x, y) {
+  this.id = 0;
+  this.name = "";
+
+  this.x = x || 0;
+  this.y = y || 0;
+  this.width = 0;
+  this.height = 0;
+  this.image = new Image();
+
+  this.init = function () {
+    this.image.src = asset;
+    this.width = this.image.naturalWidth;
+    this.height = this.image.naturalHeight;
+  };
+
+  this.init();
 }
