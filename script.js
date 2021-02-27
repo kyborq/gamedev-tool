@@ -1,14 +1,15 @@
-let game, scene;
+let game, scene, player;
 
 function start() {
-  game = new Game("#game", 640, 480);
+  game = new Game(640, 480);
   scene = new Scene();
 
-  // scene.add(object);
-
+  player = new Sprite("assets/player.png", game.width / 2, game.height / 2);
+  
+  scene.add(player);
   game.setScene(scene);
 }
 
 function draw() {
-  game.render();
+  game.start();
 }
