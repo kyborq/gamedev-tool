@@ -34,7 +34,7 @@ function Mouse(selector) {
 
 function Debug() {
   this.objects = [];
-  this.parent = document.querySelector("body");
+  this.parent = document.querySelector("#app");
   this.debug = document.createElement("div");
 
   this.add = function (label, value) {
@@ -82,7 +82,7 @@ function Game(width, height) {
   this.height = height || 480;
   this.canvas = document.createElement("canvas");
   this.context = this.canvas.getContext("2d");
-  this.parent = document.querySelector("body");
+  this.parent = document.querySelector("#app");
 
   this.scene = [];
 
