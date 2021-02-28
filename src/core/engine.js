@@ -1,36 +1,3 @@
-function Debug(selector) {
-  this.vars = [];
-
-  this.add = function (label, variable) {
-    this.vars.push({ name: label, value: variable });
-    this.init();
-  };
-
-  this.update = function (label, value) {
-    for (let variable of this.vars) {
-      if (variable.name === label) {
-        variable.value = value;
-      }
-    }
-    this.init();
-  };
-
-  this.init = function () {
-    let debug = document.querySelector(selector);
-
-    if (debug) {
-      while (debug.firstChild) {
-        debug.removeChild(debug.firstChild);
-      }
-    }
-    for (let variable of this.vars) {
-      let line = document.createElement("p");
-      line.innerText = variable.name + ": " + JSON.stringify(variable.value);
-      debug.appendChild(line);
-    }
-  };
-}
-
 function Keyboard() {
   this.event = function (callback) {
     window.addEventListener("keydown", function (e) {
@@ -65,6 +32,51 @@ function Mouse(selector) {
   };
 }
 
+function Debug() {
+  this.objects = [];
+  this.parent = document.querySelector("body");
+  this.debug = document.createElement("div");
+
+  this.add = function (label, value) {
+    this.objects.push({ label: label, value: value });
+  };
+
+  this.set = function (label, value) {
+    if (
+      this.objects.filter((object) => object && object.label === label).length >
+      0
+    ) {
+      for (let object of this.objects) {
+        if (object.label === label) {
+          object.value = value;
+        }
+      }
+    } else {
+      this.add(label, value);
+    }
+  };
+
+  this.init = function () {
+    this.debug.id = "debug";
+
+    this.parent.appendChild(this.debug);
+  };
+
+  this.update = function () {
+    while (this.debug.firstChild) {
+      this.debug.removeChild(this.debug.firstChild);
+    }
+
+    for (let object of this.objects) {
+      let line = document.createElement("p");
+      line.innerText = object.label + ": " + JSON.stringify(object.value);
+      this.debug.appendChild(line);
+    }
+  };
+
+  this.init();
+}
+
 function Game(width, height) {
   this.width = width || 640;
   this.height = height || 480;
@@ -83,8 +95,8 @@ function Game(width, height) {
 
   this.setScene = function (scene) {
     this.scene = scene;
-  }
-  
+  };
+
   this.start = function () {
     if (this.scene) {
       this.scene.render(this.canvas, this.context);
@@ -96,7 +108,7 @@ function Game(width, height) {
       this.scenes[i].id = i + 1;
     }
   };
-  
+
   this.init();
 }
 
@@ -121,7 +133,11 @@ function Scene() {
       this.objects[i].init();
       this.objects[i].width = this.objects[i].image.naturalWidth;
       this.objects[i].height = this.objects[i].image.naturalHeight;
-      ctx.drawImage(this.objects[i].image, this.objects[i].x, this.objects[i].y);
+      ctx.drawImage(
+        this.objects[i].image,
+        this.objects[i].x,
+        this.objects[i].y
+      );
     }
   };
 
