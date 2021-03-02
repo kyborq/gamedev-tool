@@ -62,7 +62,7 @@ function Debug() {
     this.parent.appendChild(this.debug);
   };
 
-  this.update = function () {
+  this.start = function () {
     while (this.debug.firstChild) {
       this.debug.removeChild(this.debug.firstChild);
     }
