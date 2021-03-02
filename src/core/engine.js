@@ -1,11 +1,13 @@
 function Keyboard() {
+  this.key = [];
+
   this.event = function (callback) {
     window.addEventListener("keydown", function (e) {
-      this.key = e.key;
+      this.key[0] = e.key;
       callback && callback("down", e.key);
     });
     window.addEventListener("keyup", function (e) {
-      this.key = e.key;
+      this.key[0] = e.key;
       callback && callback("up", e.key);
     });
   };
@@ -106,6 +108,7 @@ function Game(width, height) {
   this.updateIds = function () {
     for (let i = 0; i < this.scenes.length; i++) {
       this.scenes[i].id = i + 1;
+      this.scenes[i].name = "scene-" + (i + 1);
     }
   };
 
@@ -118,13 +121,15 @@ function Scene() {
 
   this.objects = [];
 
-  this.add = function (object) {
+  this.add = function (object, x, y) {
+    object.x = x || object.x;
+    object.y = y || object.y;
     this.objects.push(object);
     this.updateIds();
   };
 
   this.delete = function (object) {
-    this.updateIds();
+    this.objects = this.objects.filter((obj) => obj.id !== object.id);
   };
 
   this.render = function (canvas, ctx) {
@@ -148,6 +153,7 @@ function Scene() {
   this.updateIds = function () {
     for (let i = 0; i < this.objects.length; i++) {
       this.objects[i].id = i + 1;
+      this.objects[i].name = "object-" + (i + 1);
     }
   };
 }
@@ -161,6 +167,11 @@ function Sprite(asset, x, y) {
   this.width = 0;
   this.height = 0;
   this.image = new Image();
+
+  this.setPosition = function (x, y) {
+    this.x = x || 0;
+    this.y = y || 0;
+  };
 
   this.init = function () {
     this.image.src = asset;
