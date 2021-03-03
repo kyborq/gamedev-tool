@@ -1,9 +1,6 @@
-function isBetweenX(x, x1, x2) {
-  return x > x1 && x < x2;
-}
-
-function isBetweenY(y, y1, y2) {
-  return y > y1 && y < y2;
+function random(min, max) {
+  let rand = min - 0.5 + Math.random() * (max - min + 1);
+  return Math.round(rand);
 }
 
 function distance(x1, y1, x2, y2) {
@@ -22,9 +19,4 @@ function collision(object, target) {
     return true;
   }
   return false;
-}
-
-function random(min, max) {
-  let rand = min - 0.5 + Math.random() * (max - min + 1);
-  return Math.round(rand);
 }
