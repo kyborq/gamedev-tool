@@ -1,24 +1,24 @@
-let debug, game, scene, player, door;
+let game, scene, player, key;
 
 function start() {
-  debug = new Debug();
-  game = new Game(640, 480);
-  scene = new Scene();
+  game = new Game(640, 480); // Создание холста размером 640 на 480 пикселей
+  scene = new Scene(); // Создание игровой сцены
 
-  player = new Sprite("assets/player.png");
-  door = new Sprite("assets/door.png");
+  // Создание игровых объектов, изображение берется из папки assets
+  player = new Sprite("assets/player.png", 120, 300); // игрок
+  key = new Sprite("assets/key.png", 340, 200); // ключ по координатам 340 и 200
 
-  player.setPosition(250, 240);
-  door.setPosition(400, 240);
-
-  scene.add(door);
+  // добавление объектов на сцену
+  scene.add(key);
   scene.add(player);
 
-  game.setScene(scene);
-  console.log(scene);
+  game.setScene(scene); // Установка сцены
 }
 
 function draw() {
-  debug.start();
+  control(player);
+
+  // --- область-изменений
+
   game.start();
 }
