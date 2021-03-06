@@ -26,6 +26,8 @@ function random(min, max) {
   return Math.round(rand);
 }
 
+// экстремальные костыли
+// переделать
 let dx = 0;
 let dy = 0;
 function control(object) {
