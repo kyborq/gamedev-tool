@@ -99,6 +99,12 @@ function Game(width, height) {
     this.scene = scene;
   };
 
+  // TODO
+  this.addScene = function (scene) {}
+
+  // TODO
+  this.deleteScene = function (scene) {}
+
   this.start = function () {
     if (this.scene) {
       this.scene.render(this.canvas, this.context);
