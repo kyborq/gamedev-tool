@@ -1,23 +1,19 @@
 # Gamedev Tool
 
-2D game development tool based on HTML5 Canvas for learning programming
+A tool for learning javascript programming by creating html5 games
 
-# Install
+## Getting started
 
-Installing of this project is simply stupid! Just clone this repository like this:
+These instructions will get you a copy of the project and running on your computer
+
+### Requirements
+
+The latest Chrome browser that supports canvas and javascript. Any convenient text editor for writing code.
+
+### Installing
+
+Clone the repository using GIT or download the code directly from the browser and unpack it
 
 ```
 git clone https://github.com/kyborq/gamedev-tool.git
 ```
-
-Go in src directory and open script.js. This is your playground!
-
-# FAQ
-
-## Main functions
-
-Main functions is start and draw.
-
-Start - execute code by once
-
-Draw - loop cycle
