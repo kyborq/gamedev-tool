@@ -85,6 +85,7 @@ function Game(width, height) {
   this.canvas = document.createElement("canvas");
   this.context = this.canvas.getContext("2d");
   this.parent = document.querySelector("#app");
+  this.retro = true;
 
   this.scene = [];
 
@@ -99,15 +100,9 @@ function Game(width, height) {
     this.scene = scene;
   };
 
-  // TODO
-  this.addScene = function (scene) {}
-
-  // TODO
-  this.deleteScene = function (scene) {}
-
   this.start = function () {
     if (this.scene) {
-      this.scene.render(this.canvas, this.context);
+      this.scene.render(this.canvas, this.context, this.retro);
     }
   };
 
@@ -138,18 +133,26 @@ function Scene() {
     this.objects = this.objects.filter((obj) => obj.id !== object.id);
   };
 
-  this.render = function (canvas, ctx) {
+  this.render = function (canvas, ctx, smoothing) {
     this.clear(ctx, canvas.width, canvas.height);
+    ctx.save();
     for (let i = 0; i < this.objects.length; i++) {
       this.objects[i].init();
-      this.objects[i].width = this.objects[i].image.naturalWidth;
-      this.objects[i].height = this.objects[i].image.naturalHeight;
+
+      ctx.imageSmoothingEnabled = !smoothing;
+      ctx.webkitImageSmoothingEnabled = !smoothing;
+      ctx.mozImageSmoothingEnabled = !smoothing;
+
+      ctx.translate(this.objects[i].x, this.objects[i].y);
+      ctx.rotate((this.objects[i].angle * Math.PI) / 180);
+
       ctx.drawImage(
         this.objects[i].image,
-        this.objects[i].x,
-        this.objects[i].y
+        this.objects[i].hotspot.y,
+        this.objects[i].hotspot.y
       );
     }
+    ctx.restore();
   };
 
   this.clear = function (ctx, width, height) {
@@ -172,11 +175,18 @@ function Sprite(asset, x, y) {
   this.y = y || 0;
   this.width = 0;
   this.height = 0;
+  this.angle = 0;
+  this.hotspot = { x: 0, y: 0 };
   this.image = new Image();
 
   this.setPosition = function (x, y) {
     this.x = x || 0;
     this.y = y || 0;
+  };
+
+  this.setSize = function (width, height) {
+    this.width = width;
+    this.height = height;
   };
 
   this.init = function () {
