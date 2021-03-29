@@ -26,33 +26,6 @@ function random(min, max) {
   return Math.round(rand);
 }
 
-// экстремальные костыли
-// переделать
-let dx = 0;
-let dy = 0;
-function control(object) {
-  window.addEventListener("keydown", function (e) {
-    if (e.key === "a") {
-      dx = -1;
-    }
-
-    if (e.key === "d") {
-      dx = 1;
-    }
-
-    if (e.key === "w") {
-      dy = -1;
-    }
-
-    if (e.key === "s") {
-      dy = 1;
-    }
-  });
-  object.x += dx;
-  object.y += dy;
-
-  window.addEventListener("keyup", function (e) {
-    dx = 0;
-    dy = 0;
-  });
+function lerp(start, end, t) {
+  return start * (1 - t) + end * t;
 }
