@@ -1,24 +1,12 @@
-let game, scene, player, key;
+let game, scene, player;
 
 function start() {
-  game = new Game(640, 480); // Создание холста размером 640 на 480 пикселей
-  scene = new Scene(); // Создание игровой сцены
+  game = new Game(640, 480, "Hello World");
+  scene = new Scene();
 
-  // Создание игровых объектов, изображение берется из папки assets
-  player = new Sprite("assets/player.png", 120, 300); // игрок
-  key = new Sprite("assets/key.png", 340, 200); // ключ по координатам 340 и 200
-
-  // добавление объектов на сцену
-  scene.add(key);
-  scene.add(player);
-
-  game.setScene(scene); // Установка сцены
+  game.addScene(scene, "game");
 }
 
-function draw() {
-  control(player);
-
-  // --- область-изменений
-
+function draw(dt) {
   game.start();
 }
